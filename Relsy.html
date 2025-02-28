@@ -1,25 +1,78 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>祝福</title>
+    <title>艺术网页</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffcc33, #ff66cc);
+            overflow: hidden;
+            font-family: 'Cursive', sans-serif;
         }
-        h1 {
-            font-size: 48px;
-            text-align: center;
+
+        .art-text {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px #ffcc33, 0 0 20px #ffcc33, 0 0 30px #ff66cc, 0 0 40px #ff66cc, 0 0 50px #ff66cc, 0 0 60px #ff66cc;
+            }
+            to {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px #ffcc33, 0 0 30px #ffcc33, 0 0 40px #ff66cc, 0 0 50px #ff66cc, 0 0 60px #ff66cc, 0 0 70px #ff66cc;
+            }
+        }
+
+        .floating-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-200px);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>你好朋友，祝你三月快乐 🌹</h1>
+    <div class="art-text">你好朋友，祝你三月快乐！</div>
+    <div class="floating-circles">
+        <div class="circle" style="width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 50%; left: 80%;"></div>
+        <div class="circle" style="width: 80px; height: 80px; top: 70%; left: 30%;"></div>
+        <div class="circle" style="width: 120px; height: 120px; top: 30%; left: 60%;"></div>
+    </div>
+    <script>
+        const circles = document.querySelectorAll('.circle');
+        circles.forEach(circle => {
+            circle.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            circle.style.animationDelay = `${Math.random() * 2}s`;
+        });
+    </script>
 </body>
 </html>
