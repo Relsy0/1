@@ -3,59 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐播放器</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .player {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            text-align: center;
-            width: 300px;
-        }
-        .player img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .controls {
-            margin-top: 20px;
-        }
-        .controls button {
-            background: #007bff;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            margin: 0 5px;
-            padding: 10px 20px;
-        }
-        .controls button:hover {
-            background: #0056b3;
-        }
-    </style>
+    <title>Music Player</title>
 </head>
 <body>
-    <div class="player">
-        <img src="https://via.placeholder.com/300x300.png?text=Music+Cover" alt="Music Cover">
-        <h2>播放音乐</h2>
-        <audio id="audioPlayer" controls>
-            <source src="/music/random_music.mid" type="audio/midi">
-            您的浏览器不支持音频元素。
-        </audio>
-        <div class="controls">
-            <button onclick="document.getElementById('audioPlayer').play()">播放</button>
-            <button onclick="document.getElementById('audioPlayer').pause()">暂停</button>
-            <button onclick="document.getElementById('audioPlayer').load()">重新加载</button>
-        </div>
-    </div>
+    <h1>Music Player</h1>
+    <audio controls>
+        <source src="random_music.mid" type="audio/midi">
+        Your browser does not support the audio element.
+    </audio>
 </body>
 </html>
