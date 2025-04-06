@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分享音乐</title>
+</head>
+<body>
+    <h1>分享您创作的音乐</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="music">上传音乐文件：</label>
+        <input type="file" id="music" name="music" accept=".mid" required><br>
+        <input type="submit" value="上传">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('music', document.getElementById('music').files[0]);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById('result').innerHTML = `
+                    <p>上传成功！</p>
+                    <p>音乐链接：<a href="${result.url}" target="_blank">${result.url}</a></p>
+                `;
+            } else {
+                document.getElementById('result').innerHTML = `<p>上传失败：${result.error}</p>`;
+            }
+        };
+    </script>
+</body>
+</html>
