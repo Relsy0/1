@@ -2,38 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>分享音乐</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .player {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+        }
+        .player img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls button {
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin: 0 5px;
+            padding: 10px 20px;
+        }
+        .controls button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>分享您创作的音乐</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <label for="music">上传音乐文件：</label>
-        <input type="file" id="music" name="music" accept=".mid" required><br>
-        <input type="submit" value="上传">
-    </form>
-    <div id="result"></div>
-
-    <script>
-        document.getElementById('uploadForm').onsubmit = async function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            formData.append('music', document.getElementById('music').files[0]);
-
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                document.getElementById('result').innerHTML = `
-                    <p>上传成功！</p>
-                    <p>音乐链接：<a href="${result.url}" target="_blank">${result.url}</a></p>
-                `;
-            } else {
-                document.getElementById('result').innerHTML = `<p>上传失败：${result.error}</p>`;
-            }
-        };
-    </script>
+    <div class="player">
+        <img src="https://via.placeholder.com/300x300.png?text=Music+Cover" alt="Music Cover">
+        <h2>播放音乐</h2>
+        <audio id="audioPlayer" controls>
+            <source src="/music/random_music.mid" type="audio/midi">
+            您的浏览器不支持音频元素。
+        </audio>
+        <div class="controls">
+            <button onclick="document.getElementById('audioPlayer').play()">播放</button>
+            <button onclick="document.getElementById('audioPlayer').pause()">暂停</button>
+            <button onclick="document.getElementById('audioPlayer').load()">重新加载</button>
+        </div>
+    </div>
 </body>
 </html>
