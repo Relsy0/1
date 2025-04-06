@@ -1,1 +1,66 @@
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask_uploads import UploadSet, configure_uploads, AUDIO, patch_request_class
+import os
 
+pip install Flask
+python app.py
+
+app = Flask(__name__)
+
+# 配置上传文件夹
+app.config['UPLOADED_MUSIC_DEST'] = 'uploads/music'
+
+# 配置上传集
+music = UploadSet('music', AUDIO)
+configure_uploads(app, music)
+patch_request_class(app)  # 限制文件大小，默认为16MB
+
+# 确保上传文件夹存在
+if not os.path.exists(app.config['UPLOADED_MUSIC_DEST']):
+    os.makedirs(app.config['UPLOADED_MUSIC_DEST'])
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        name = request.form['name']
+        birthday = request.form['birthday']
+        music_file = request.files.get('music')
+        
+        try:
+            year, month, day = map(int, birthday.split('-'))
+            lunar_date = sxtwl.fromSolar(year, month, day)
+            
+            # 获取生肖
+            shengxiao = get_shengxiao(lunar_date.getYearGZ().dz)
+            
+            # 获取星座
+            constellation = get_constellation(month, day)
+            
+            # 获取五行缺失
+            missing = get_wuxing_missing(year, month, day)
+            wuxing_result = "五行齐全" if not missing else "缺" + "、".join(missing)
+            
+            # 保存音乐文件
+            if music_file:
+                filename = music.save(music_file)
+                music_url = url_for('uploaded_file', filename=filename, _external=True)
+            else:
+                music_url = None
+                
+            return render_template('result.html',
+                                 name=name,
+                                 birthday=birthday,
+                                 shengxiao=shengxiao,
+                                 constellation=constellation,
+                                 wuxing=wuxing_result,
+                                 music_url=music_url)
+        except Exception as e:
+            return f"输入错误：{str(e)}"
+    return render_template('index.html')
+
+@app.route('/uploads/music/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOADED_MUSIC_DEST'], filename)
+
+if __name__ == '__main__':
+    app.run(debug=True
