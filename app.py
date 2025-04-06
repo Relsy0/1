@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 import os
 
 app = Flask(__name__)
@@ -19,8 +19,8 @@ def upload_file():
     if file.filename == '':
         return jsonify(success=False, error='没有选择文件')
     
-    name = request.form['name']
-    filename = os.path.join(app.config['UPLOAD_FOLDER'], name + os.path.splitext(file.filename)[1])
+    # 将文件名强制改为 random_music.mid
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], 'random_music.mid')
     file.save(filename)
     
     url = request.url_root + 'music/' + os.path.basename(filename)
@@ -29,6 +29,10 @@ def upload_file():
 @app.route('/music/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
